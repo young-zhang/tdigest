@@ -10,5 +10,5 @@ name = "tdigest"
 name = "tdigest"
 
 [dependencies]
-quickersort = "3.0"
+quickersort = { git = "https://github.com/young-zhang/quickersort.git", branch="master" }
 serde_json = "1.0"

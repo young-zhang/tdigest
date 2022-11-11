@@ -6,3 +6,4 @@ Rplots.pdf
 tests/*.json
 CBAInternalRootCA.pem
 .DS_Store
+.idea/
