@@ -68,13 +68,13 @@ fn integration_test_digest(fname: String) {
     let mut answervec: Vec<f64> = Vec::new();
     for line in BufReader::new(f).lines() {
         idx += 1;
-        let mut str = match line {
+        let str = match line {
             Err(e) => {
                 panic!("Failed reading answer line in {}: {}", fspec, e);
             }
             Ok(s) => s,
         };
-        let mut split = str.split_whitespace();
+        let split = str.split_whitespace();
         for s in split {
             let clone = s.to_string().to_lowercase().clone();
             if idx == 1 {
@@ -138,11 +138,9 @@ fn integration_test_digest(fname: String) {
                 // Test for success as the rounding error percent, not the absolute value of the rounding error
                 assert!(
                     (t.mean() - answervec[idx]).abs() / answervec[idx].abs() < 0.001,
-                    format!(
                         "       ... mean test FAILED! {} ~<> {}",
                         t.mean(),
                         answervec[idx]
-                    )
                 );
             }
             Some(ref stat) if stat == "var" => {
@@ -151,11 +149,9 @@ fn integration_test_digest(fname: String) {
                 // Test for success as the rounding error percent, not the absolute value of the rounding error
                 assert!(
                     (t.variance() - answervec[idx]).abs() / answervec[idx].abs() < 0.01,
-                    format!(
                         "       ... variance test FAILED! {} ~<> {}",
                         t.variance(),
                         answervec[idx]
-                    )
                 );
             }
             Some(ref stat) if stat == "stdev" => {
@@ -164,11 +160,9 @@ fn integration_test_digest(fname: String) {
                 // Test for success as the rounding error percent, not the absolute value of the rounding error
                 assert!(
                     (t.stdev() - answervec[idx]).abs() / answervec[idx].abs() < 0.01,
-                    format!(
                         "       ... standard deviation test FAILED! {} ~<> {}",
                         t.stdev(),
                         answervec[idx]
-                    )
                 );
             }
             Some(ref stat) if stat == "sum" => {
@@ -177,22 +171,18 @@ fn integration_test_digest(fname: String) {
                 // Test for success as the rounding error percent, not the absolute value of the rounding error
                 assert!(
                     (t.sum() - answervec[idx]).abs() / answervec[idx].abs() < 0.001,
-                    format!(
                         "    ... sum test FAILED! {} ~<> {}",
                         t.sum(),
                         answervec[idx]
-                    )
                 );
             }
             Some(ref stat) if stat == "count" => {
                 println!("   Count test");
                 assert!(
                     (t.count() - answervec[idx]).abs() < 0.001,
-                    format!(
                         "       ... count test FAILED! {} <> {}",
                         t.count(),
                         answervec[idx]
-                    )
                 );
             }
             x => println!("Unknown statistic in answer file {:?}", x),

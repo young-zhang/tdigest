@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+use std::fmt;
 
 pub struct Centroid {
     pub mean: f64,
@@ -23,14 +24,6 @@ pub struct Centroid {
 }
 
 impl Centroid {
-    pub fn to_string(&self) -> String {
-        format!(
-            "{{\"mean\": \"{mean}\",\"weight\": \"{weight}\"}}",
-            mean = self.mean,
-            weight = self.weight
-        )
-    }
-
     pub fn add(&mut self, r: &Centroid) -> String {
         if r.weight < 0.0 {
             return "centroid weight cannot be less than zero".to_string();
@@ -52,5 +45,14 @@ impl Centroid {
             sort_key1: self.mean.floor() as isize,
             sort_key2: (self.mean.signum() * self.mean.fract()) as isize,
         }
+    }
+}
+
+impl fmt::Display for Centroid {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{{\"mean\": \"{mean}\",\"weight\": \"{weight}\"}}",
+               mean = self.mean,
+               weight = self.weight
+        )
     }
 }

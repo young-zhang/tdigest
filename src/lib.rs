@@ -254,6 +254,7 @@ impl Tdigest {
             / self.processed_weight
     }
 
+    #[allow(clippy::manual_range_contains)]
     pub fn quantile(&mut self, q: f64) -> f64 {
         self.process();
         if q < 0.0 || q > 1.0 || self.processed.len() == 0 {
@@ -323,11 +324,11 @@ impl Tdigest {
                 rec = 1;
                 result = result + &centroid.to_string();
             } else {
-                result = result + &",".to_string() + &centroid.to_string();
+                result = result + "," + &centroid.to_string();
             }
         }
-        result = result + &"]}".to_string();
-        result.replace("~", "\x22")
+        result += "]}";
+        result.replace('~', "\x22")
     }
 
     pub fn save_digest(&mut self, fspec: String) -> std::io::Result<()> {
